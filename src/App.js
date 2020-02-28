@@ -173,10 +173,10 @@ class App extends Component {
         <TopBar />
         <main className='mdl-layout__content'>
           <div className='mdl-grid'>
-            <div className='mdl-cell mdl-cell--8-col mdl-cell--12-col-tablet'>
+            <div className='mdl-cell mdl-cell--6-col mdl-cell--12-col-tablet'>
               <Editor settings={settings} onChange={this.handleChange} />
             </div>
-            <div className='mdl-cell mdl-cell--4-col mdl-cell--12-col-tablet'>
+            <div className='mdl-cell mdl-cell--6-col mdl-cell--12-col-tablet'>
               <Presets preset={preset} defaults={defaults} onChange={this.handlePreset} />
               <Preview settings={settings} defaults={defaults} onChange={this.handleChange} onError={this.handleError} />
             </div>
@@ -193,7 +193,7 @@ class App extends Component {
 function generateDefaults (settings) {
   const defaults = Object.keys(settings).reduce((data, section) => {
     data[section] = Object.keys(settings[section])
-    .filter(key => settings[section][key].default !== undefined)
+    .filter(key => (typeof settings[section][key] === 'object') && (settings[section][key].default !== undefined))
     .reduce((d, key) => {
       d[key] = settings[section][key].default;
       return d;

@@ -27,7 +27,11 @@
       ]
     }
   },
-  "comms": {
+  "top": {
+    "section" : "The Tari Network Configuration File",
+    "description": "This file carries all the configuration options for running Tari-related nodes and infrastructure in one single file.\nAs you'll notice, almost all configuration options are commented out. This is because they are either not needed, are for advanced users that know what they want to tweak, or are already set at their default values.  If things are working fine, then there's no need to change anything here. Each major section is clearly marked so that you can quickly find the section you're looking for.\n A note about Logging - The logger is initialised before the configuration file is loaded. For this reason, logging is not configured here, but in `~/.tari/log4rs.yml` (*nix / OsX) or `%HOME%/.tari/log4rs.yml` (Windows) by default, or the location specified in the TARI_LOGFILE environment variable."
+  },
+  "common": {
     "section": "Common settings",
     "description": "Settings common to all applications",
     "message_cache_size": {

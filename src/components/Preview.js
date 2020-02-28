@@ -75,13 +75,20 @@ function toToml (settings, defaults) {
       // for old configs the section might be missing in defaults
       defaults[section] = defaults[section] || {};
 
+      data[section] = data[section] || {};
+      const sectionName = data[section].section || section;
+      const sectionDescription = data[section].description || "";
+
+      acc = acc.concat(toSectionHeader(sectionName, 120));
+      acc.push(split_comment_at(sectionDescription, 118));
+
       const vals = Object.keys(settings[section])
         .filter(key => !isEqual(settings[section][key], defaults[section][key]))
         .map(key => {
           const val = settings[section][key];
           const comment = toComment(settings, section, key, val);
           const setting = `${key} = ${toVal(val)}`;
-          return `${comment}\n${setting}`;
+          return `\n${comment}\n${setting}`;
         });
 
       if (vals.length) {
@@ -118,17 +125,30 @@ function isEqual (a, b) {
  * Splits a string at word boundaries so that each line is at most `line_length` long, and then prefixes each line
  * with a comment character
  */
-function split_comment_at(comment, line_length) {
-  const lines = [];
-  const words = comment.split(" ");
-  while (words.length > 0) {
-    let line = "#";
-    while (words.length > 0 && (line.length + words[0].length < line_length)) {
-      line += " " + words.shift();
+function split_comment_at(multi_comment, line_length) {
+  const split = (comment) => {
+    const lines = [];
+    const words = comment.split(/\s/);
+    while (words.length > 0) {
+      let line = "#";
+      while (words.length > 0 && (line.length + words[0].length < line_length)) {
+        line += " " + words.shift();
+      }
+      lines.push(line);
     }
-    lines.push(line);
-  }
-  return lines.join('\n');
+    return lines.join('\n');
+  };
+  const comments = multi_comment.split('\n');
+  return comments.map(split).join('\n');
+}
+
+function toSectionHeader(heading, width) {
+  const banner = "#".repeat(width);
+  const inner = `#${" ".repeat(width-2)}#`;
+  const left_pad = Math.floor((width-2 - heading.length) / 2);
+  const right_pad = width - heading.length - 2 - left_pad;
+  let title = `#${" ".repeat(left_pad)}${heading}${" ".repeat(right_pad)}#`;
+  return [banner, inner, title, inner, banner];
 }
 
 function toComment (settings, section, key, value) {
