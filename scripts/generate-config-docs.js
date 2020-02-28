@@ -90,13 +90,11 @@ function compiledMd (cliOptions) {
 
 async function buildPage () {
   var compiledBuffer = new BufferList();
-  const source = await data.fetchSource();
   const extra =  await data.fetchExtra();
   compiledBuffer.append(docTemplate.preExampleConfig);
-  compiledBuffer.append(compiledToml(data.getData(source, extra)));
+  compiledBuffer.append(compiledToml(data.getData(extra)));
   compiledBuffer.append(docTemplate.postExampleConfig);
   compiledBuffer.append(docTemplate.preConfigDoc);
-  compiledBuffer.append(compiledMd(data.getCliOptions(source)));
   compiledBuffer.append(docTemplate.postConfigDoc);
   return compiledBuffer;
 }

@@ -79,6 +79,7 @@ function toToml (settings, defaults) {
       const sectionName = data[section].section || section;
       const sectionDescription = data[section].description || "";
 
+      acc.push("\n");
       acc = acc.concat(toSectionHeader(sectionName, 120));
       acc.push(split_comment_at(sectionDescription, 118));
 

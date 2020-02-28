@@ -90,16 +90,6 @@
       ],
       "simple": true
     },
-    "mode_timeout": {
-      "name": "Mode Timeout",
-      "description": "Parity will move to inactive mode after {} seconds.",
-      "type": "number",
-      "default": 500,
-      "min": 0,
-      "max": 10000,
-      "condition": "settings.base_node.network !== 'mainnet'",
-      "simple": true
-    },
     "base_path": {
       "name": "Base Path",
       "description": "Blockchain and settings will be stored in {}.",

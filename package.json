@@ -1,10 +1,10 @@
 {
-  "name": "parity-config-generator",
-  "version": "0.1.0",
-  "private": true,
-  "homepage": "http://paritytech.github.io/parity-config-generator",
+  "name": "tari-config-generator",
+  "version": "0.2.0",
+  "private": false,
+  "homepage": "https://config.tari.com",
   "devDependencies": {
-    "babel-eslint": "^10.0.3",
+    "babel-eslint": "^10.1.0",
     "react-scripts": "^3.4.0",
     "semistandard": "^9.2.1",
     "snazzy": "^6.0.0"
