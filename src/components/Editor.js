@@ -38,7 +38,7 @@ class Editor extends Component {
   render () {
     const {settings} = this.props;
     const {configMode, platform} = settings.__internal;
-    const base = settings.base_node.base_path !== '$BASE' ? settings.base_node.base_path : basePath(platform);
+    const base = settings.common.base_path !== '$BASE' ? settings.common.base_path : basePath(platform);
 
     const isSimple = configMode === 'simple';
     return (

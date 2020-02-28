@@ -24,8 +24,7 @@ export function localPath (platform) {
       '%UserProfile%',
       'AppData',
       'Local',
-      'Parity',
-      'Ethereum'
+      'Tari',
     ], platform);
   }
 

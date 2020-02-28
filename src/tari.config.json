@@ -34,14 +34,18 @@
   "common": {
     "section": "Common settings",
     "description": "Settings common to all applications",
+    "base_path" : {
+      "name": "Common Tari data path",
+      "description": "By default all Tari-related data-- the blockchain database, wallet information and peer information is stored in $BASE. If you wish to use another location, you can set this parameter.",
+      "default": "$BASE"
+    },
     "message_cache_size": {
       "name": "Message cache size",
-      "description": "Tari is a 100% peer-to-peer network, so there are no servers to hold messages for you while you're offline. Instead, we rely on our peers to hold messages for us while we're offline. This settings sets maximum size of the  message cache that for holding our peers' messages, in MB.",
+      "description": "Tari is a 100% peer-to-peer network, so there are no servers to hold messages for you while you're offline.\nInstead, we rely on our peers to hold messages for us while we're offline. This settings sets maximum size of the  message cache that for holding our peers' messages, in MB.",
       "type": "number",
       "default": 10,
       "min": 0,
-      "max": 1000,
-      "simple": true
+      "max": 1000
     },
     "message_cache_ttl": {
       "name": "Message cache TTL",
@@ -50,21 +54,39 @@
       "default": 1440,
       "min": 2,
       "max": 518400
+    },
+    "peer_database": {
+      "name": "Peer database location",
+      "default": "$BASE/peers"
+    },
+    "blacklist_ban_period": {
+      "name": "Blacklist period",
+      "description": "If peer nodes spam you with messages, or are otherwise badly behaved, they will be added to your blacklist and banned. You can set a time limit to release that ban (in minutes), or otherwise ban them for life (-1). The default is to ban them for 10 days.",
+      "default": 1440
+    }
+  },
+  "wallet": {
+    "section": "Wallet Configuration Options",
+    "description": "",
+    "wallet_file": {
+      "name": "Wallet path",
+      "description": "The folder to store your local key data and transaction history. DO NOT EVER DELETE THIS FILE unless you\n  a) have backed up your seed phrase and\n  b) know what you are doing!",
+      "default": "$BASE/wallet/wallet.dat"
     }
   },
   "base_node": {
-    "section": "Base Node",
-    "description": "Tari base node parameters",
+    "section": "Base Node Configuration Options",
+    "description": "If you are not running a Tari Base node, you can simply leave everything in this section commented out. Base nodes help maintain the security of the Tari token and are the surest way to preserve your privacy and be 100% sure that no-one is cheating you out of your money.",
     "network": {
       "name": "Network",
-      "default": "testnet",
+      "default": "mainnet",
       "description": {
         "mainnet": "The main Tari network",
-        "testnet": "The test network (Rincewind)"
+        "rincewind": "The Tari test network (Edition One)"
       },
       "suggestions": [
         "testnet",
-        "mainnet"
+        "rincewind"
       ],
       "simple": true
     },
