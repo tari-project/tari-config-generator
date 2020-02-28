@@ -4,7 +4,7 @@
   "private": false,
   "homepage": "https://config.tari.com",
   "devDependencies": {
-    "babel-eslint": "^10.1.0",
+    "babel-eslint": "10.0.3",
     "react-scripts": "^3.4.0",
     "semistandard": "^9.2.1",
     "snazzy": "^6.0.0"

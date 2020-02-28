@@ -6,7 +6,7 @@ import Item from './Item';
 import Select from './controls/Select';
 
 import { localPath, basePath, joinPath } from '../system';
-import data from '../data.compiled.json';
+import data from '../tari.config.json';
 
 import 'material-design-lite';
 
@@ -57,21 +57,29 @@ class Editor extends Component {
 
     const sections = Object.keys(data)
       .filter(sectionName => sectionName !== '__internal')
+      .filter(sectionName => {
+          const section = data[sectionName];
+          let includeSection = true;
+          if ('condition' in section) {
+              // eslint-disable-next-line no-eval
+              includeSection = eval(section.condition);
+          }
+          if (!includeSection) {
+              console.debug(`Section ${sectionName} excluded due to matching condition`);
+          }
+          return !!includeSection
+      })
       .filter(sectionName => !simple ||
           Object.keys(data[sectionName]).some(propName => {
             const prop = data[sectionName][propName];
             console.log(`${data[sectionName][propName].name}: ${prop.simple}`);
             return typeof prop === 'object' && prop.simple;
           })
-        )
+      )
       .map(sectionName => {
         const section = data[sectionName];
 
-        let sectionCondition = true;
-        if ('condition' in section) {
-            // eslint-disable-next-line no-eval
-          sectionCondition = eval(section.condition);
-        }
+
 
         let items = Object.keys(section)
             .filter(key => key !== 'section' && key !== 'description' && key !== 'condition')
@@ -80,7 +88,7 @@ class Editor extends Component {
             .map(propName => {
               const prop = section[propName];
 
-              let condition = sectionCondition;
+              let condition = true;
               if ('disable' in section && propName !== 'disable') {
                 condition = condition && !settings[sectionName].disable;
               } else if ('enable' in section && propName !== 'enable') {
@@ -388,7 +396,7 @@ class Editor extends Component {
   }
 }
 
-export function fillDescription (description, value, key) {
+export function fillDescription(description, value, key) {
   if (!description) {
     console.warn(`Cant find description for: value:${value} at ${key}`);
     return 'unknown entry';
@@ -396,20 +404,20 @@ export function fillDescription (description, value, key) {
   return description.replace(/{}/g, value || '');
 }
 
-function or (value, def) {
+function or(value, def) {
   if (value === undefined) {
     return def;
   }
   return value;
 }
 
-function check (section, prop) {
+function check(section, prop) {
   if (!data[section][prop]) {
     throw new Error(`Can't find data for ${section}.${prop}`);
   }
 }
 
-function val (data) {
+function val(data) {
   const match = data.match(/(.+)\s+\[(.+)]/);
   if (!match) {
     return { name: data, value: data };

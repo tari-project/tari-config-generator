@@ -8,7 +8,7 @@ import Preview from './components/Preview';
 import Presets from './components/Presets';
 
 import { detectPlatform } from './system';
-import data from './data.compiled.json';
+import data from './tari.config.json';
 
 function loadFromURL () {
   const hash = window.location.hash;

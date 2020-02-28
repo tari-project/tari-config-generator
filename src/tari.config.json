@@ -15,9 +15,9 @@
     "platform": {
       "name": "Platform",
       "description": {
-        "Windows": "Config for Windows",
-        "Linux": "Config for Linux",
-        "Mac OS": "Config for Mac OS"
+        "Windows": "Windows",
+        "Linux": "GNU/Linux",
+        "Mac OS": "Mac OS X"
       },
       "default": null,
       "values": [
@@ -37,7 +37,8 @@
     "base_path" : {
       "name": "Common Tari data path",
       "description": "By default all Tari-related data-- the blockchain database, wallet information and peer information is stored in $BASE. If you wish to use another location, you can set this parameter.",
-      "default": "$BASE"
+      "default": "$BASE",
+      "type": "path"
     },
     "message_cache_size": {
       "name": "Message cache size",
@@ -57,11 +58,13 @@
     },
     "peer_database": {
       "name": "Peer database location",
-      "default": "$BASE/peers"
+      "default": "$BASE/peers",
+      "type": "path"
     },
     "blacklist_ban_period": {
       "name": "Blacklist period",
       "description": "If peer nodes spam you with messages, or are otherwise badly behaved, they will be added to your blacklist and banned. You can set a time limit to release that ban (in minutes), or otherwise ban them for life (-1). The default is to ban them for 10 days.",
+      "type": "number",
       "default": 1440
     }
   },
@@ -71,7 +74,8 @@
     "wallet_file": {
       "name": "Wallet path",
       "description": "The folder to store your local key data and transaction history. DO NOT EVER DELETE THIS FILE unless you\n  a) have backed up your seed phrase and\n  b) know what you are doing!",
-      "default": "$BASE/wallet/wallet.dat"
+      "default": "$BASE/wallet/wallet.dat",
+      "type": "path"
     }
   },
   "base_node": {
@@ -84,11 +88,12 @@
         "mainnet": "The main Tari network",
         "rincewind": "The Tari test network (Edition One)"
       },
-      "suggestions": [
-        "testnet",
+      "values": [
+        "mainnet",
         "rincewind"
       ],
-      "simple": true
+      "simple": true,
+      "type": "string"
     },
     "base_path": {
       "name": "Base Path",
@@ -96,13 +101,22 @@
       "default": "$BASE",
       "type": "path",
       "simple": true
-    },
-    "db_path": {
-      "name": "Database Path",
-      "description": "Databases will be stored in {}.",
-      "default": "$LOCAL/chains",
-      "type": "path",
-      "simple": true
+    }
+  },
+  "base_node.rincewind": {
+    "section": "Rincewind Node (testnet one)",
+    "description": "Rincewind is the first Tari test net. This network is for testing purposes only, but we encourage everyone to come and play onn it and try and break things.\nCoins on this network **have no value**, and the network may be restarted without prior notice.",
+    "condition": "settings.base_node.network == 'rincewind'",
+    "db_type": {
+      "name": "Database backend",
+      "description": {
+        "lmdb": "Use the LMDB backend. Recommended for almost all use cases.",
+        "memory": "Use the non-persistent memory backend. For testing only."
+      },
+      "default": "lmdb",
+      "values": ["lmdb", "memory"],
+      "simple": true,
+      "type": "string"
     }
   }
 }
