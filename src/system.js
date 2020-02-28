@@ -36,24 +36,19 @@ export function basePath (platform) {
   if (platform === 'Windows') {
     return joinPath([
       '%AppData%',
-      'Parity',
-      'Ethereum'
+      'tari',
     ], platform);
   }
 
   if (platform === 'Mac OS') {
     return joinPath([
       '$HOME',
-      'Library',
-      'Application Support',
-      'io.parity.ethereum'
+      '.tari',
     ], platform);
   }
 
   return joinPath([
     '~',
-    '.local',
-    'share',
-    'io.parity.ethereum'
+    '.tari',
   ], platform);
 }

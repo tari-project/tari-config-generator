@@ -250,17 +250,18 @@ function generateAugmentedData (source, extra) {
 
   // Parse config structs
 
-  const configSections = getStructFields('Config', source).map(({name: section, type: sectionStructName}) =>
-      ({
-        name: section,
-        name_friendly: sectionStructName,
-        props: getStructFields(sectionStructName, source).map(prop => {
-          prop.type = prop.type.toLowerCase().replace(/vec<(.+)>/, '$1[]').replace(/u16|u32|u64|usize/, 'number');
-          return prop;
-        })
-      })
-  ).filter(({props}) => props.length);
+  // const configSections = getStructFields('Config', source).map(({name: section, type: sectionStructName}) =>
+  //     ({
+  //       name: section,
+  //       name_friendly: sectionStructName,
+  //       props: getStructFields(sectionStructName, source).map(prop => {
+  //         prop.type = prop.type.toLowerCase().replace(/vec<(.+)>/, '$1[]').replace(/u16|u32|u64|usize/, 'number');
+  //         return prop;
+  //       })
+  //     })
+  // ).filter(({props}) => props.length);
 
+  const configSections = [];
   // Hydrate config structs with CLI options
 
   const data = hydrateConfigWithCli(configSections, configCliOptions);
@@ -274,11 +275,13 @@ async function fetchExtraData(){
   return JSON.parse(await fs.readFile(path.resolve(__dirname, '../src/data.extra.json'), 'UTF-8'));
 }
 
+const DUMMY = ``;
+
 if (!module.parent) {
   (async function () {
   // Make sure that config items with unrecognized default values
   // were set a default value in data.extra.json
-    const dataAugmented = generateAugmentedData(await fetchSource(), await fetchExtraData());
+    const dataAugmented = generateAugmentedData(DUMMY, await fetchExtraData());
   
 
     Object.keys(dataAugmented).forEach(section => {

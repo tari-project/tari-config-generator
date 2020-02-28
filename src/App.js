@@ -76,7 +76,7 @@ function loadSettings () {
     console.warn(e);
   }
 
-  defaultSettings.parity.chain = 'kovan';
+  defaultSettings.base_node.chain = 'testnet';
   return {settings: defaultSettings, errors: []};
 }
 

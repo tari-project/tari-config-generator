@@ -38,23 +38,21 @@ class Editor extends Component {
   render () {
     const {settings} = this.props;
     const {configMode, platform} = settings.__internal;
-    const base = settings.parity.base_path !== '$BASE' ? settings.parity.base_path : basePath(platform);
+    const base = settings.base_node.base_path !== '$BASE' ? settings.base_node.base_path : basePath(platform);
 
-    const isOffline = settings.parity.mode === 'offline';
     const isSimple = configMode === 'simple';
-
     return (
       <div>
         { this.select('__internal', 'platform') }
         { this.select('__internal', 'configMode') }
         <div>
-          { this.renderConfig(isSimple, settings, platform, base, isOffline) }
+          { this.renderConfig(isSimple, settings, platform, base) }
         </div>
       </div>
     );
   }
 
-  renderConfig (simple, settings, platform, base, isOffline) {
+  renderConfig (simple, settings, platform, base) {
     this.configMode = simple ? 'simple' : 'advanced';
 
     const sections = Object.keys(data)
@@ -62,6 +60,7 @@ class Editor extends Component {
       .filter(sectionName => !simple ||
           Object.keys(data[sectionName]).some(propName => {
             const prop = data[sectionName][propName];
+            console.log(`${data[sectionName][propName].name}: ${prop.simple}`);
             return typeof prop === 'object' && prop.simple;
           })
         )
