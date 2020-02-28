@@ -81,7 +81,7 @@ function toToml (settings, defaults) {
           const val = settings[section][key];
           const comment = toComment(settings, section, key, val);
           const setting = `${key} = ${toVal(val)}`;
-          return `# ${comment}\n${setting}`;
+          return `${comment}\n${setting}`;
         });
 
       if (vals.length) {
@@ -114,18 +114,38 @@ function isEqual (a, b) {
   return JSON.stringify(a) === JSON.stringify(b);
 }
 
+/**
+ * Splits a string at word boundaries so that each line is at most `line_length` long, and then prefixes each line
+ * with a comment character
+ */
+function split_comment_at(comment, line_length) {
+  const lines = [];
+  const words = comment.split(" ");
+  while (words.length > 0) {
+    let line = "#";
+    while (words.length > 0 && (line.length + words[0].length < line_length)) {
+      line += " " + words.shift();
+    }
+    lines.push(line);
+  }
+  return lines.join('\n');
+}
+
 function toComment (settings, section, key, value) {
   // for old configs the section might be missing in defaults
   data[section] = data[section] || {};
   data[section][key] = data[section][key] || {};
 
+  let comment;
   if (typeof data[section][key].description === 'object') {
     if ('suggestions' in data[section][key] && !(value in data[section][key].description)) {
-      return `Custom ${key.toLowerCase()}`;
+      comment = `Custom ${key.toLowerCase()}`;
     }
-    return fillDescription(data[section][key].description[value], value);
+    comment = fillDescription(data[section][key].description[value], value);
+  } else {
+    comment = fillDescription(data[section][key].description, value);
   }
-  return fillDescription(data[section][key].description, value);
+  return split_comment_at(comment, 118);
 }
 
 function toVal (val) {
