@@ -17,5 +17,4 @@ docs/config.md
 .DS_Store
 npm-debug.log
 
-package-lock.json
 src/data.compiled.json
