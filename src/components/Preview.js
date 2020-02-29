@@ -38,7 +38,7 @@ class Preview extends Component {
   render () {
     const {settings, defaults} = this.props;
     return (
-      <div className='mdl-card mdl-shadow--2dp preview-card'>
+      <div className='mdl-card mdl-shadow--6dp preview-card'>
         <div className='mdl-card__title'>
           <div className='preview-title mdl-card__title-text'>
             config.toml

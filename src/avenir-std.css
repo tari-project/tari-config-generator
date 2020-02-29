@@ -1,0 +1,58 @@
+/**
+ * @license
+ * MyFonts Webfont Build ID 3575478, 2018-05-04T14:17:24-0400
+ *
+ * The fonts listed in this notice are subject to the End User License
+ * Agreement(s) entered into by the website owner. All other parties are
+ * explicitly restricted from using the Licensed webfonts/avenir-std(s).
+ *
+ * You may obtain a valid license at the URLs below.
+ *
+ * Webfont: AvenirLTStd-Light by Linotype
+ * URL: https://www.myfonts.com/fonts/linotype/avenir/35-light/
+ *
+ * Webfont: AvenirLTStd-LightOblique by Linotype
+ * URL: https://www.myfonts.com/fonts/linotype/avenir/35-light-oblique/
+ *
+ * Webfont: AvenirLTStd-Roman by Linotype
+ * URL: https://www.myfonts.com/fonts/linotype/avenir/55-roman/
+ *
+ * Webfont: AvenirLTStd-Oblique by Linotype
+ * URL: https://www.myfonts.com/fonts/linotype/avenir/55-oblique/
+ *
+ * Webfont: AvenirLTStd-Heavy by Linotype
+ * URL: https://www.myfonts.com/fonts/linotype/avenir/85-heavy/
+ *
+ * Webfont: AvenirLTStd-HeavyOblique by Linotype
+ * URL: https://www.myfonts.com/fonts/linotype/avenir/85-heavy-oblique/
+ *
+ *
+ * License: https://www.myfonts.com/viewlicense?type=web&buildid=3575478
+ * Licensed pageviews: 250,000
+ * webfonts/avenir-std copyright: Copyright &#x00A9; 2013 Monotype GmbH. All rights reserved.
+ *
+ * © 2018 MyFonts Inc
+*/
+
+
+/* @import must be at top of file, otherwise CSS will not work */
+@import url("//hello.myfonts.net/count/368eb6");
+
+
+@font-face {font-family: 'AvenirLTStd-Light';src: url('fonts/avenir-std/368EB6_0_0.eot');src: url('fonts/avenir-std/368EB6_0_0.eot?#iefix') format('embedded-opentype'),url('fonts/avenir-std/368EB6_0_0.woff2') format('woff2'),url('fonts/avenir-std/368EB6_0_0.woff') format('woff'),url('fonts/avenir-std/368EB6_0_0.ttf') format('truetype');}
+
+
+@font-face {font-family: 'AvenirLTStd-LightOblique';src: url('fonts/avenir-std/368EB6_1_0.eot');src: url('fonts/avenir-std/368EB6_1_0.eot?#iefix') format('embedded-opentype'),url('fonts/avenir-std/368EB6_1_0.woff2') format('woff2'),url('fonts/avenir-std/368EB6_1_0.woff') format('woff'),url('fonts/avenir-std/368EB6_1_0.ttf') format('truetype');}
+
+
+@font-face {font-family: 'AvenirLTStd-Roman';src: url('fonts/avenir-std/368EB6_2_0.eot');src: url('fonts/avenir-std/368EB6_2_0.eot?#iefix') format('embedded-opentype'),url('fonts/avenir-std/368EB6_2_0.woff2') format('woff2'),url('fonts/avenir-std/368EB6_2_0.woff') format('woff'),url('fonts/avenir-std/368EB6_2_0.ttf') format('truetype');}
+
+
+@font-face {font-family: 'AvenirLTStd-Oblique';src: url('fonts/avenir-std/368EB6_3_0.eot');src: url('fonts/avenir-std/368EB6_3_0.eot?#iefix') format('embedded-opentype'),url('fonts/avenir-std/368EB6_3_0.woff2') format('woff2'),url('fonts/avenir-std/368EB6_3_0.woff') format('woff'),url('fonts/avenir-std/368EB6_3_0.ttf') format('truetype');}
+
+
+@font-face {font-family: 'AvenirLTStd-Heavy';src: url('fonts/avenir-std/368EB6_4_0.eot');src: url('fonts/avenir-std/368EB6_4_0.eot?#iefix') format('embedded-opentype'),url('fonts/avenir-std/368EB6_4_0.woff2') format('woff2'),url('fonts/avenir-std/368EB6_4_0.woff') format('woff'),url('fonts/avenir-std/368EB6_4_0.ttf') format('truetype');}
+
+
+@font-face {font-family: 'AvenirLTStd-HeavyOblique';src: url('fonts/avenir-std/368EB6_5_0.eot');src: url('fonts/avenir-std/368EB6_5_0.eot?#iefix') format('embedded-opentype'),url('fonts/avenir-std/368EB6_5_0.woff2') format('woff2'),url('fonts/avenir-std/368EB6_5_0.woff') format('woff'),url('fonts/avenir-std/368EB6_5_0.ttf') format('truetype');}
+
