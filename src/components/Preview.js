@@ -52,6 +52,7 @@ class Preview extends Component {
           <a
             className='mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-efect'
             target='_blank'
+            rel='noopener noreferrer'
             href={window.location.toString()}>
             <i className='material-icons' id='link'>link</i>
             <span className='mdl-tooltip' htmlFor='link'>Link to this Config File</span>

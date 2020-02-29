@@ -1,0 +1,80 @@
+version: 2.1
+
+jobs:
+  build-production:
+    docker:
+      - image: circleci/node:13.8
+    steps:
+      - checkout # special step to check out source code to working directory
+      - run:
+          name: update-npm
+          command: 'sudo npm install -g npm@latest'
+      - restore_cache: # special step to restore the dependency cache
+          # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+      - run:
+          name: install dependencies
+          command: npm install
+      - save_cache: # special step to save the dependency cache
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+          paths:
+            - ./node_modules
+      - run:
+          name: Build site
+          command: npm run build
+      - persist_to_workspace:
+          root: .
+          paths: build
+
+  deploy-gh-pages:
+    docker:
+      - image: quay.io/tarilabs/git-ssh-client:0.2-alpine
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - add_ssh_keys:
+          fingerprints:
+            - "6b:03:2c:4e:84:05:2b:d5:c3:0c:ce:76:25:05:62:64"
+      - run:
+          name: Deploy site to gh-pages branch
+          command: |
+            DEST_BRANCH=gh-pages
+            DEST_PATH=build/
+
+            if [[ ! -d $DEST_PATH ]]; then
+              echo "$DEST_PATH directory not found!"
+              exit 1
+            fi
+
+            TMP_DIR=$(mktemp -d /tmp/ghpages_XXXXXX)
+
+            echo "Copying site files to temporary location $TMP_DIR"
+            cp -R $DEST_PATH/* $DEST_PATH/.nojekyll $TMP_DIR
+
+            REMOTE=$(git remote get-url origin)
+
+            cd $TMP_DIR
+
+            git config --global user.email "ci-build@tari.com"
+            git config --global user.name "ci-build"
+
+            git init
+            git checkout -b $DEST_BRANCH
+            git remote add origin $REMOTE
+            git add --all .
+            git commit -m "[skip ci] Update github pages"
+            git push origin $DEST_BRANCH --force
+
+            echo "Published."
+workflows:
+  version: 2
+  workflow:
+    jobs:
+      - build-production
+      - deploy-gh-pages:
+          filters:
+            branches:
+              only: master
+          requires:
+            - build-production
