@@ -28,13 +28,13 @@
     }
   },
   "top": {
-    "section" : "The Tari Network Configuration File",
+    "section": "The Tari Network Configuration File",
     "description": "This file carries all the configuration options for running Tari-related nodes and infrastructure in one single file.\nAs you'll notice, almost all configuration options are commented out. This is because they are either not needed, are for advanced users that know what they want to tweak, or are already set at their default values.  If things are working fine, then there's no need to change anything here. Each major section is clearly marked so that you can quickly find the section you're looking for.\n A note about Logging - The logger is initialised before the configuration file is loaded. For this reason, logging is not configured here, but in `~/.tari/log4rs.yml` (*nix / OsX) or `%HOME%/.tari/log4rs.yml` (Windows) by default, or the location specified in the TARI_LOGFILE environment variable."
   },
   "common": {
     "section": "Common settings",
     "description": "Settings common to all applications",
-    "base_path" : {
+    "base_path": {
       "name": "Common Tari data path",
       "description": "By default all Tari-related data-- the blockchain database, wallet information and peer information is stored in $BASE. If you wish to use another location, you can set this parameter.",
       "default": "$BASE",
@@ -58,6 +58,7 @@
     },
     "peer_database": {
       "name": "Peer database location",
+      "description": "The location of the peer database",
       "default": "$BASE/peers",
       "type": "path"
     },
@@ -114,9 +115,301 @@
         "memory": "Use the non-persistent memory backend. For testing only."
       },
       "default": "lmdb",
-      "values": ["lmdb", "memory"],
-      "simple": true,
+      "values": [
+        "lmdb",
+        "memory"
+      ],
       "type": "string"
+    },
+    "transport": {
+      "name": "Transport protocol",
+      "description": {
+        "tcp": "Use TCP to connect to the Tari network. This transport can only communicate with TCP/IP addresses, so peers with e.g. tor onion addresses will not be contactable.",
+        "tor": "Configures the node to run over a tor hidden service using the Tor proxy. This transport recognises TCP/IP, Onion v2, Onion v3 and DNS addresses.",
+        "socks5": "Use a SOCKS5 proxy transport. This transport recognises any addresses supported by the proxy."
+      },
+      "type": "string",
+      "values": [
+        "tcp",
+        "tor",
+        "socks5"
+      ],
+      "default": "tcp",
+      "simple": true
+    },
+    "socks5_proxy_address": {
+      "name": "SOCKS5 proxy address",
+      "description": "The address of the SOCKS5 proxy.",
+      "default": "/ip4/127.0.0.1/tcp/9050",
+      "simple": true,
+      "condition": "settings['base_node.rincewind'].transport === 'socks5'",
+      "type": "string"
+    },
+    "socks5_listener_address": {
+      "name": "SOCKS5 listener address",
+      "description": "This node's local address to which the SOCKS5 proxy will forward traffic.",
+      "default": "/ip4/127.0.0.1/tcp/18189",
+      "simple": true,
+      "condition": "settings['base_node.rincewind'].transport === 'socks5'",
+      "type": "string"
+    },
+    "socks5_auth": {
+      "name": "SOCKS5 authentication credentials",
+      "description": {
+        "none": "Do not authenticate to the socks proxy",
+        "username_password=username:xxxxxxx": "SOCKS5 proxy username/password authentication"
+      },
+      "default": "none",
+      "suggestions": [
+        "none",
+        "username_password=username:xxxxxxx"
+      ],
+      "simple": true,
+      "condition": "settings['base_node.rincewind'].transport === 'socks5'",
+      "type": "string"
+    },
+    "tor_control_address": {
+      "name": "TOR control address",
+      "description": "The local IP address of the TOR control server",
+      "default": "/ip4/127.0.0.1/tcp/9051",
+      "simple": true,
+      "condition": "settings['base_node.rincewind'].transport === 'tor'",
+      "type": "string"
+    },
+    "tor_onion_port": {
+      "name": "TOR onion port",
+      "description": "The tor onion port to use",
+      "default": "18141",
+      "condition": "settings['base_node.rincewind'].transport === 'tor'",
+      "type": "string"
+    },
+    "tor_control_auth": {
+      "name": "TOR authentication details",
+      "description": {
+        "none": "Do not use authentication to the TOR server",
+        "password=xxxxxxxx": "Use password authentication to the TOR server."
+      },
+      "default": "none",
+      "suggestions": [
+        "none",
+        "password=xxxxxxxx"
+      ],
+      "simple": true,
+      "condition": "settings['base_node.rincewind'].transport === 'tor'",
+      "type": "string"
+    },
+    "tor_identity_file": {
+      "name": "TOR identity file",
+      "description": "A path to the file that stores the tor hidden service private key, if using the tor transport.",
+      "default": "$BASE/rincewind/tor.key",
+      "condition": "settings['base_node.rincewind'].transport === 'tor'",
+      "type": "string"
+    },
+    "tor_forward_address": {
+      "name": "TOR forward address",
+      "description": "The address to receive traffic forwarded from the TOR server.",
+      "default": "/ip4/127.0.0.1/tcp/18141",
+      "simple": true,
+      "condition": "settings['base_node.rincewind'].transport === 'tor'",
+      "type": "string"
+    },
+    "data_dir": {
+      "name": "Blockchain storage folder",
+      "description": "Blockchain and settings will be stored in {}.",
+      "default": "$BASE/rincewind",
+      "type": "path"
+    },
+    "peer_seeds": {
+      "name": "Peer bootstrap whitelist",
+      "description": "When first logging onto the Tari network, you need to find a few peers to bootstrap the process. In the absence of any servers, this is a little more challenging than usual. Our best strategy is just to try and connect to the peers you knew about last time you ran the software.\nBut what about when you run the software for the first time? That's where this whitelist comes in. It's a list of known Tari nodes that are likely to be around for a long time and that new nodes can use to introduce themselves to the network.",
+      "default": [],
+      "type": "string[]",
+      "simple": true
+    },
+    "core_threads": {
+      "name": "Number of core threads",
+      "description": "Configure the number of threads to spawn for long-running tasks, like block and transaction validation. A good value for this value is somewhere between n/2 and n - 1, where n is the number of cores on your machine.",
+      "type": "number",
+      "default": 4,
+      "min": 1,
+      "max": 32
+    },
+    "blocking_threads": {
+      "name": "Number of blocking threads",
+      "description": "Configure the number of threads for the overall node work-stealing scheduler. A good value here is between 3 and n - blocking_threads, where n is the number of cores on your machine, and blocking_thread is set above.",
+      "type": "number",
+      "default": 4,
+      "min": 1,
+      "max": 32
+    },
+    "public_address": {
+      "name": "Public IP address",
+      "description": "The node's publicly-accessible hostname. This is the host name that is advertised on the network so that peers can find you. *NOTE*: If using the `tor` transport type, public_address will be ignored and an onion address will be automatically configured.",
+      "type": "string",
+      "default": "/ip4/172.2.3.4/tcp/18189",
+      "simple": true,
+      "condition": "settings['base_node.rincewind'].transport !== 'tor'"
+    },
+    "identity_file": {
+      "name": "Identity file location",
+      "description": "A path to the file that stores your node identity and secret key.",
+      "type": "path",
+      "default": "$BASE/rincewind/node_id.json",
+      "simple": true
+    }
+  },
+  "base_node.mainnet": {
+    "section": "MainNet",
+    "description": "Tari MainNet",
+    "condition": "settings.base_node.network == 'mainnet'",
+    "db_type": {
+      "name": "Database backend",
+      "description": {
+        "lmdb": "Use the LMDB backend. Recommended for almost all use cases.",
+        "memory": "Use the non-persistent memory backend. For testing only."
+      },
+      "default": "lmdb",
+      "values": [
+        "lmdb",
+        "memory"
+      ],
+      "type": "string"
+    },
+    "transport": {
+      "name": "Transport protocol",
+      "description": {
+        "tcp": "Use TCP to connect to the Tari network. This transport can only communicate with TCP/IP addresses, so peers with e.g. tor onion addresses will not be contactable.",
+        "tor": "Configures the node to run over a tor hidden service using the Tor proxy. This transport recognises TCP/IP, Onion v2, Onion v3 and DNS addresses.",
+        "socks5": "Use a SOCKS5 proxy transport. This transport recognises any addresses supported by the proxy."
+      },
+      "type": "string",
+      "values": [
+        "tcp",
+        "tor",
+        "socks5"
+      ],
+      "default": "tcp",
+      "simple": true
+    },
+    "socks5_proxy_address": {
+      "name": "SOCKS5 proxy address",
+      "description": "The address of the SOCKS5 proxy.",
+      "default": "/ip4/127.0.0.1/tcp/9050",
+      "simple": true,
+      "condition": "settings['base_node.mainnet'].transport === 'socks5'",
+      "type": "string"
+    },
+    "socks5_listener_address": {
+      "name": "SOCKS5 listener address",
+      "description": "This node's local address to which the SOCKS5 proxy will forward traffic.",
+      "default": "/ip4/127.0.0.1/tcp/18189",
+      "simple": true,
+      "condition": "settings['base_node.mainnet'].transport === 'socks5'",
+      "type": "string"
+    },
+    "socks5_auth": {
+      "name": "SOCKS5 authentication credentials",
+      "description": {
+        "none": "Do not authenticate to the socks proxy",
+        "username_password=username:xxxxxxx": "SOCKS5 proxy username/password authentication"
+      },
+      "default": "none",
+      "suggestions": [
+        "none",
+        "username_password=username:xxxxxxx"
+      ],
+      "simple": true,
+      "condition": "settings['base_node.mainnet'].transport === 'socks5'",
+      "type": "string"
+    },
+    "tor_control_address": {
+      "name": "TOR control address",
+      "description": "The local IP address of the TOR control server",
+      "default": "/ip4/127.0.0.1/tcp/9051",
+      "simple": true,
+      "condition": "settings['base_node.mainnet'].transport === 'tor'",
+      "type": "string"
+    },
+    "tor_onion_port": {
+      "name": "TOR onion port",
+      "description": "The tor onion port to use",
+      "default": "18141",
+      "condition": "settings['base_node.mainnet'].transport === 'tor'",
+      "type": "string"
+    },
+    "tor_control_auth": {
+      "name": "TOR authentication details",
+      "description": {
+        "none": "Do not use authentication to the TOR server",
+        "password=xxxxxxxx": "Use password authentication to the TOR server."
+      },
+      "default": "none",
+      "suggestions": [
+        "none",
+        "password=xxxxxxxx"
+      ],
+      "simple": true,
+      "condition": "settings['base_node.mainnet'].transport === 'tor'",
+      "type": "string"
+    },
+    "tor_identity_file": {
+      "name": "TOR identity file",
+      "description": "A path to the file that stores the tor hidden service private key, if using the tor transport.",
+      "default": "$BASE/mainnet/tor.key",
+      "condition": "settings['base_node.mainnet'].transport === 'tor'",
+      "type": "string"
+    },
+    "tor_forward_address": {
+      "name": "TOR forward address",
+      "description": "The address to receive traffic forwarded from the TOR server.",
+      "default": "/ip4/127.0.0.1/tcp/18141",
+      "simple": true,
+      "condition": "settings['base_node.mainnet'].transport === 'tor'",
+      "type": "string"
+    },
+    "data_dir": {
+      "name": "Blockchain storage folder",
+      "description": "Blockchain and settings will be stored in {}.",
+      "default": "$BASE/mainnet",
+      "type": "path"
+    },
+    "peer_seeds": {
+      "name": "Peer bootstrap whitelist",
+      "description": "When first logging onto the Tari network, you need to find a few peers to bootstrap the process. In the absence of any servers, this is a little more challenging than usual. Our best strategy is just to try and connect to the peers you knew about last time you ran the software.\nBut what about when you run the software for the first time? That's where this whitelist comes in. It's a list of known Tari nodes that are likely to be around for a long time and that new nodes can use to introduce themselves to the network.",
+      "default": [],
+      "type": "string[]",
+      "simple": true
+    },
+    "core_threads": {
+      "name": "Number of core threads",
+      "description": "Configure the number of threads to spawn for long-running tasks, like block and transaction validation. A good value for this value is somewhere between n/2 and n - 1, where n is the number of cores on your machine.",
+      "type": "number",
+      "default": 4,
+      "min": 1,
+      "max": 32
+    },
+    "blocking_threads": {
+      "name": "Number of blocking threads",
+      "description": "Configure the number of threads for the overall node work-stealing scheduler. A good value here is between 3 and n - blocking_threads, where n is the number of cores on your machine, and blocking_thread is set above.",
+      "type": "number",
+      "default": 4,
+      "min": 1,
+      "max": 32
+    },
+    "public_address": {
+      "name": "Public IP address",
+      "description": "The node's publicly-accessible hostname. This is the host name that is advertised on the network so that peers can find you. *NOTE*: If using the `tor` transport type, public_address will be ignored and an onion address will be automatically configured.",
+      "type": "string",
+      "default": "/ip4/172.2.3.4/tcp/18189",
+      "simple": true,
+      "condition": "settings['base_node.mainnet'].transport !== 'tor'"
+    },
+    "identity_file": {
+      "name": "Identity file location",
+      "description": "A path to the file that stores your node identity and secret key.",
+      "type": "path",
+      "default": "$BASE/mainnet/node_id.json",
+      "simple": true
     }
   }
 }

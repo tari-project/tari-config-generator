@@ -76,7 +76,6 @@ function loadSettings () {
     console.warn(e);
   }
 
-  defaultSettings.base_node.chain = 'testnet';
   return {settings: defaultSettings, errors: []};
 }
 
