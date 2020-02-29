@@ -8,3 +8,14 @@
   padding-bottom: 1rem;
   border-left: 2px solid #eee;
 }
+
+h5.section {
+  font-size: 18px;
+  margin-top: 20px;
+  font-weight: 600;
+}
+
+p.section {
+  font-size: 12px;
+  line-height: 18px;
+}
