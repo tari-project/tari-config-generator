@@ -18,3 +18,5 @@ docs/config.md
 npm-debug.log
 
 src/data.compiled.json
+
+.idea
