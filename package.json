@@ -2,7 +2,7 @@
   "name": "tari-config-generator",
   "version": "0.2.0",
   "private": false,
-  "homepage": "https://tari-project.github.io/tari-config-generator/",
+  "homepage": "https://config.tari.com",
   "devDependencies": {
     "babel-eslint": "10.0.3",
     "react-scripts": "^3.4.0",
@@ -29,7 +29,6 @@
     "eject": "react-scripts eject",
     "lint": "semistandard --verbose | snazzy",
     "lint-fix": "semistandard --fix --verbose | snazzy",
-    "generate-data": "node scripts/generate-config-data.js",
     "generate-docs": "node scripts/generate-config-docs.js"
   },
   "semistandard": {
