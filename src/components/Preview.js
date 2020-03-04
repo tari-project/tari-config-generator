@@ -6,9 +6,10 @@ import './Preview.css';
 import Importer from './Importer';
 
 import { joinPath, basePath } from '../system';
-import data from '../tari.config.json';
+
 // TODO [ToDr] move to some common?
 import {fillDescription} from './Editor';
+import {data} from "../util";
 
 class Preview extends Component {
   static propTypes = {

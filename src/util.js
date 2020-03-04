@@ -21,13 +21,15 @@ function clone (val) {
   return JSON.parse(JSON.stringify(val));
 }
 
-async function fetchSource() {
+let data;
+
+async function loadSource() {
   try {
     const response = await axios.get(JSON_CONFIG_URL);
-    return response.data;
+    data = response.data;
   } catch (error) {
     console.error(`Could not fetch JSON config. Falling back to local copy. ${error}`);
-    return fetchExtraData();
+    data = require('./tari.config'); //If this is called from the web we can't read the contents of the file with `fetchExtraData()`
   }
 }
 
@@ -49,4 +51,4 @@ async function fetchExtraData() {
   return JSON.parse(await fs.readFile(path.resolve(__dirname, './tari.config.json'), 'UTF-8'));
 }
 
-export {mix, clone, fetchSource, fetchExtraData, fetchPresets};
+export {mix, clone, loadSource, data, fetchExtraData, fetchPresets};

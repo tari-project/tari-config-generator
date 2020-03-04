@@ -6,9 +6,9 @@ import Item from './Item';
 import Select from './controls/Select';
 
 import { localPath, basePath, joinPath } from '../system';
-import data from '../tari.config.json';
 
 import 'material-design-lite';
+import {data} from "../util";
 
 class Editor extends Component {
 
