@@ -10,6 +10,7 @@
     "snazzy": "^6.0.0"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "bl": "^1.2.2",
     "classnames": "^2.2.6",
     "dialog-polyfill": "^0.4.9",
