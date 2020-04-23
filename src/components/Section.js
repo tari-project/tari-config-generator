@@ -1,30 +1,29 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 
-import './Section.css';
+import "./Section.css";
 
 const styles = {
   sectionVisible: {},
   sectionHidden: {
-    visibility: 'hidden',
+    visibility: "hidden",
     height: 0
   }
 };
 
 class Section extends Component {
-
   state = {
     collapsed: true
   };
 
-  constructor (...args) {
+  constructor(...args) {
     super(...args);
     this.state = {
       collapsed: this.props.collapsed
     };
   }
 
-  componentWillReceiveProps (newProps) {
+  componentWillReceiveProps(newProps) {
     if (this.props.collapsed !== newProps.collapsed) {
       this.setState({
         collapsed: newProps.collapsed
@@ -38,23 +37,26 @@ class Section extends Component {
     });
   };
 
-  render () {
-    const {title, description, children} = this.props;
-    const {collapsed} = this.state;
+  render() {
+    const { title, description, children } = this.props;
+    const { collapsed } = this.state;
     return (
-      <div className='section'>
-        <h5 onClick={this.toggleCollapsed} style={{cursor: 'pointer'}}>
-          <button className='mdl-button mdl-js-button mdl-button--icon'>
+      <div className="section">
+        <div onClick={this.toggleCollapsed} className="section-title">
+          <h5 style={{ cursor: "pointer" }}>{title}</h5>
+          <button className="mdl-button mdl-js-button mdl-button--icon">
             {collapsed ? (
-              <i className='material-icons'>expand_more</i>
+              <i className="material-icons">expand_more</i>
             ) : (
-              <i className='material-icons'>expand_less</i>
+              <i className="material-icons">expand_less</i>
             )}
           </button>
-          {title}
-        </h5>
+        </div>
         <p>{description}</p>
-        <ul className='mdl-list section-list' style={collapsed ? styles.sectionHidden : styles.sectionVisible}>
+        <ul
+          className="mdl-list section-list"
+          style={collapsed ? styles.sectionHidden : styles.sectionVisible}
+        >
           {children}
         </ul>
       </div>
@@ -65,7 +67,8 @@ class Section extends Component {
     collapsed: PropTypes.bool,
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
-    children: PropTypes.oneOfType([PropTypes.element, PropTypes.array]).isRequired
+    children: PropTypes.oneOfType([PropTypes.element, PropTypes.array])
+      .isRequired
   };
 
   static defaultProps = {

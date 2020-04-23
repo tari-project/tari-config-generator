@@ -2,7 +2,7 @@ const fs = require('fs').promises;
 const path = require('path');
 const axios = require('axios').default;
 
-const JSON_CONFIG_URL = "https://raw.githubusercontent.com/tari-project/tari/config/tari.config.json";
+const JSON_CONFIG_URL = "https://raw.githubusercontent.com/tari-project/tari/development/common/config/tari.config.json";
 const PRESET_CONFIG_URL = "https://raw.githubusercontent.com/tari-project/tari/config/preset";
 
 function mix (a, b) {

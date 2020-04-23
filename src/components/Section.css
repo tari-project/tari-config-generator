@@ -6,7 +6,12 @@
   padding-top: 0;
   margin-bottom: 0;
   padding-bottom: 1rem;
-  border-left: 2px solid #eee;
+}
+.section-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 h5.section {
