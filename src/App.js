@@ -1,54 +1,59 @@
-import React, { Component, Fragment } from 'react';
-import isEqual from 'lodash.isequal';
+import React, { Component, Fragment } from "react";
+import isEqual from "lodash.isequal";
 
-import TopBar from './components/TopBar';
-import Modal from './components/Modal';
-import Editor from './components/Editor';
-import Preview from './components/Preview';
-import Presets from './components/Presets';
+import TopBar from "./components/TopBar";
+import Modal from "./components/Modal";
+import Editor from "./components/Editor";
+import Preview from "./components/Preview";
+import Presets from "./components/Presets";
 
-import { detectPlatform } from './system';
-import {data} from "./util";
+import { detectPlatform } from "./system";
+import { data } from "./util";
 
-function loadFromURL () {
+function loadFromURL() {
   const hash = window.location.hash;
-  if (!hash.startsWith('#config=')) {
+  if (!hash.startsWith("#config=")) {
     return null;
   }
 
   try {
-    const config = hash.split('=')[1];
+    const config = hash.split("=")[1];
     return JSON.parse(window.atob(config));
   } catch (e) {
-    console.warn('Error parsing config from URL: ', e);
+    console.warn("Error parsing config from URL: ", e);
     return null;
   }
 }
 
-function loadFromLocalStorage () {
+function loadFromLocalStorage() {
   try {
-    return JSON.parse(window.localStorage.getItem('last-config'));
+    return JSON.parse(window.localStorage.getItem("last-config"));
   } catch (e) {
-    window.localStorage.setItem('last-config', null);
+    window.localStorage.setItem("last-config", null);
     return null;
   }
 }
 
-function loadSettings () {
+function loadSettings() {
   const defaultSettings = generateDefaults(data);
   try {
     let settings = loadFromLocalStorage();
     const url = loadFromURL();
     if (settings && url) {
       const diff = JSON.stringify(settings) !== JSON.stringify(url);
-      if (diff && window.confirm('Detected config in URL. Do you want to override your current config?')) {
+      if (
+        diff &&
+        window.confirm(
+          "Detected config in URL. Do you want to override your current config?"
+        )
+      ) {
         settings = null;
       }
     }
     if (!settings && url) {
       settings = url;
     }
-    if (settings && typeof settings === 'object') {
+    if (settings && typeof settings === "object") {
       // make sure the sections are always created
       const errors = [];
       Object.keys(defaultSettings).forEach(key => {
@@ -64,22 +69,27 @@ function loadSettings () {
               prop,
               value: settingsValue,
               type: typeof settingsValue,
-              expected: typeof defaultSettingsValue});
-            console.error(`Incorrect type for config item ${key}.${prop} with value ${JSON.stringify(settingsValue)} (found ${typeof settingsValue}, expected ${typeof defaultSettingsValue})`);
+              expected: typeof defaultSettingsValue
+            });
+            console.error(
+              `Incorrect type for config item ${key}.${prop} with value ${JSON.stringify(
+                settingsValue
+              )} (found ${typeof settingsValue}, expected ${typeof defaultSettingsValue})`
+            );
             settings[key][prop] = defaultSettingsValue;
           }
         });
       });
-      return {settings, errors};
+      return { settings, errors };
     }
   } catch (e) {
     console.warn(e);
   }
 
-  return {settings: defaultSettings, errors: []};
+  return { settings: defaultSettings, errors: [] };
 }
 
-function saveSettings (settings) {
+function saveSettings(settings) {
   const defaultSettings = generateDefaults(data);
   const cloned = JSON.parse(JSON.stringify(settings));
 
@@ -97,31 +107,39 @@ function saveSettings (settings) {
 
   const json = JSON.stringify(cloned);
   try {
-    window.localStorage.setItem('last-config', json);
-    window.location.hash = 'config=' + window.btoa(json);
-  } catch (e) {
-  }
+    window.localStorage.setItem("last-config", json);
+    window.location.hash = "config=" + window.btoa(json);
+  } catch (e) {}
 }
 
 class App extends Component {
-
-  constructor (props) {
+  constructor(props) {
     super(props);
 
-    const {settings, errors} = loadSettings();
+    const { settings, errors } = loadSettings();
 
     let modal;
     if (!errors.length) {
-      modal = {visible: false};
+      modal = { visible: false };
     } else {
-      let lis = errors.map(({section, prop, value, type, expected}, i) =>
-        (<li key={i}><em>{section}.{prop}</em> has value <em>{JSON.stringify(value)}</em> of type <em>{type}</em>; expected type <em>{expected}</em></li>));
+      let lis = errors.map(({ section, prop, value, type, expected }, i) => (
+        <li key={i}>
+          <em>
+            {section}.{prop}
+          </em>{" "}
+          has value <em>{JSON.stringify(value)}</em> of type <em>{type}</em>;
+          expected type <em>{expected}</em>
+        </li>
+      ));
       modal = {
         visible: true,
-        title: 'Warning',
+        title: "Warning",
         content: (
           <Fragment>
-            <p>{lis.length > 1 ? 'Some items' : 'An item'} couldn't be parsed from the loaded config:</p>
+            <p>
+              {lis.length > 1 ? "Some items" : "An item"} couldn't be parsed
+              from the loaded config:
+            </p>
             <ul>{lis}</ul>
           </Fragment>
         )
@@ -136,7 +154,7 @@ class App extends Component {
     };
   }
 
-  handleChange = (settings) => {
+  handleChange = settings => {
     saveSettings(settings);
     this.setState({
       preset: undefined,
@@ -152,36 +170,47 @@ class App extends Component {
     });
   };
 
-  handleError = (error) => {
+  handleError = error => {
     this.setState({
       modal: {
         visible: true,
-        title: 'Error',
-        content: (
-          <p>{error}</p>
-        )
+        title: "Error",
+        content: <p>{error}</p>
       }
     });
   };
 
-  render () {
-    const {settings, defaults, preset, modal} = this.state;
+  render() {
+    const { settings, defaults, preset, modal } = this.state;
 
     return (
-      <div className='mdl-layout mdl-js-layout mdl-layout--fixed-header'>
+      <div className="mdl-layout mdl-js-layout mdl-layout--fixed-header">
         <TopBar />
-        <main className='mdl-layout__content'>
-          <div className='mdl-grid'>
-            <div className='mdl-cell mdl-cell--6-col mdl-cell--12-col-tablet'>
+        <main className="mdl-layout__content">
+          <div className="mdl-grid">
+            <div className="mdl-cell mdl-cell--6-col mdl-cell--12-col-tablet left-panel main-panels">
               <Editor settings={settings} onChange={this.handleChange} />
             </div>
-            <div className='mdl-cell mdl-cell--6-col mdl-cell--12-col-tablet'>
-              <Presets preset={preset} defaults={defaults} onChange={this.handlePreset} />
-              <Preview settings={settings} defaults={defaults} onChange={this.handleChange} onError={this.handleError} />
+            <div className="mdl-cell mdl-cell--6-col mdl-cell--12-col-tablet right-panel main-panels">
+              <Presets
+                preset={preset}
+                defaults={defaults}
+                onChange={this.handlePreset}
+              />
+              <Preview
+                settings={settings}
+                defaults={defaults}
+                onChange={this.handleChange}
+                onError={this.handleError}
+              />
             </div>
           </div>
         </main>
-        <Modal title={modal.title} isOpen={modal.visible} onClose={() => this.setState({modal: {visible: false}})}>
+        <Modal
+          title={modal.title}
+          isOpen={modal.visible}
+          onClose={() => this.setState({ modal: { visible: false } })}
+        >
           {modal.content}
         </Modal>
       </div>
@@ -189,14 +218,18 @@ class App extends Component {
   }
 }
 
-function generateDefaults (settings) {
+function generateDefaults(settings) {
   const defaults = Object.keys(settings).reduce((data, section) => {
     data[section] = Object.keys(settings[section])
-    .filter(key => (typeof settings[section][key] === 'object') && (settings[section][key].default !== undefined))
-    .reduce((d, key) => {
-      d[key] = settings[section][key].default;
-      return d;
-    }, {});
+      .filter(
+        key =>
+          typeof settings[section][key] === "object" &&
+          settings[section][key].default !== undefined
+      )
+      .reduce((d, key) => {
+        d[key] = settings[section][key].default;
+        return d;
+      }, {});
     return data;
   }, {});
 

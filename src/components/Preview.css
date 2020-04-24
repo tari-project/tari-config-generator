@@ -10,8 +10,9 @@
   font-family: monospace;
   min-height: 70vh;
   border: none;
-  background: #efefef;
+  background: #292929;
   padding: 1rem;
   box-sizing: border-box;
   white-space: pre;
+  color: #868686;
 }
