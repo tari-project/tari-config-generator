@@ -1,29 +1,28 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
 
-import './Presets.css';
+import "./Presets.css";
 
-import Select from '../controls/Select';
-import Item from '../Item';
+import Select from "../controls/Select";
+import Item from "../Item";
 
-import mining from './mining.json';
-import ports from './ports.json';
+import mining from "./mining.json";
+import ports from "./ports.json";
 
-import {mix, clone} from '../../util';
+import { mix, clone } from "../../util";
 
-function toVal (val) {
+function toVal(val) {
   return { name: val, value: val };
 }
 
 const presets = {
-  'None': null,
-  'Defaults': null,
-  'Mining': mining,
-  'Non-standard Ports': ports
+  None: null,
+  Defaults: null,
+  Mining: mining,
+  "Non-standard Ports": ports
 };
 
 class Presets extends PureComponent {
-
   static propTypes = {
     preset: PropTypes.string,
     defaults: PropTypes.object.isRequired,
@@ -31,16 +30,16 @@ class Presets extends PureComponent {
   };
 
   static defaultProps = {
-    preset: 'None'
+    preset: "None"
   };
 
-  change = (preset) => {
-    if (preset === 'None') {
+  change = preset => {
+    if (preset === "None") {
       return;
     }
 
-    if (this.props.preset === 'None') {
-      if (!window.confirm('Do you want to overwrite current config?')) {
+    if (this.props.preset === "None") {
+      if (!window.confirm("Do you want to overwrite current config?")) {
         this.forceUpdate();
         return;
       }
@@ -50,19 +49,19 @@ class Presets extends PureComponent {
     this.props.onChange(preset, data);
   };
 
-  render () {
-    const {preset} = this.props;
+  render() {
+    const { preset } = this.props;
 
     return (
-      <div className='presets'>
-        <Item title={''} description={'Load predefined config.'}>
+      <div className="presets">
+        <Item title={""} description={"Load predefined config."}>
           <Select
             onChange={this.change}
             value={preset}
             values={Object.keys(presets).map(toVal)}
-            id={'presets'}
+            id={"presets"}
             disabled={false}
-            />
+          />
         </Item>
       </div>
     );
