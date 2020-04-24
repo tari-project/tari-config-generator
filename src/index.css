@@ -51,3 +51,9 @@ body {
 .list-item {
   padding: 0;
 }
+
+@media screen and (max-width: 760px) {
+  .main-panels {
+    padding: 0;
+  }
+}

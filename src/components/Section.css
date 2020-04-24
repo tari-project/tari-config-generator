@@ -1,3 +1,8 @@
+.section-container {
+  height: 60vh;
+  overflow: scroll;
+  padding: 0 10px 20px 0;
+}
 .section {
   border-bottom: 2px solid #eee;
 }
@@ -23,4 +28,11 @@ h5.section {
 p.section {
   font-size: 12px;
   line-height: 18px;
+}
+
+@media screen and (max-width: 760px) {
+  .section-container {
+    height: auto;
+    overflow: visible;
+  }
 }

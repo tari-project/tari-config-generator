@@ -40,17 +40,20 @@ class Section extends Component {
   render() {
     const { title, description, children } = this.props;
     const { collapsed } = this.state;
+
     return (
       <div className="section">
         <div onClick={this.toggleCollapsed} className="section-title">
           <h5 style={{ cursor: "pointer" }}>{title}</h5>
-          <button className="mdl-button mdl-js-button mdl-button--icon">
-            {collapsed ? (
-              <i className="material-icons">expand_more</i>
-            ) : (
-              <i className="material-icons">expand_less</i>
-            )}
-          </button>
+          {children.length > 0 && (
+            <button className="mdl-button mdl-js-button mdl-button--icon">
+              {collapsed ? (
+                <i className="material-icons">expand_more</i>
+              ) : (
+                <i className="material-icons">expand_less</i>
+              )}
+            </button>
+          )}
         </div>
         <p>{description}</p>
         <ul
