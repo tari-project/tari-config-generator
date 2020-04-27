@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/static/css/main.47917b79.chunk.css",
+    "main.js": "/static/js/main.ebdba714.chunk.js",
+    "main.js.map": "/static/js/main.ebdba714.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.a4ccfc6a.js",
+    "runtime-main.js.map": "/static/js/runtime-main.a4ccfc6a.js.map",
+    "static/css/2.b8ff264e.chunk.css": "/static/css/2.b8ff264e.chunk.css",
+    "static/js/2.5659c8bd.chunk.js": "/static/js/2.5659c8bd.chunk.js",
+    "static/js/2.5659c8bd.chunk.js.map": "/static/js/2.5659c8bd.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.6b6156ae6e3fd5fdd880623ce4568bb4.js": "/precache-manifest.6b6156ae6e3fd5fdd880623ce4568bb4.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/2.b8ff264e.chunk.css.map": "/static/css/2.b8ff264e.chunk.css.map",
+    "static/css/main.47917b79.chunk.css.map": "/static/css/main.47917b79.chunk.css.map",
+    "static/js/2.5659c8bd.chunk.js.LICENSE.txt": "/static/js/2.5659c8bd.chunk.js.LICENSE.txt",
+    "static/media/avenir-std.css": "/static/media/368EB6_5_0.a048a920.woff2"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a4ccfc6a.js",
+    "static/css/2.b8ff264e.chunk.css",
+    "static/js/2.5659c8bd.chunk.js",
+    "static/css/main.47917b79.chunk.css",
+    "static/js/main.ebdba714.chunk.js"
+  ]
+}
