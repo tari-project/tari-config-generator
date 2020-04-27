@@ -41,19 +41,9 @@ body {
   margin-right: 10px;
 }
 
-.main-panels {
-  padding: 20px;
-}
-
 .input-capital {
   text-transform: capitalize;
 }
 .list-item {
   padding: 0;
-}
-
-@media screen and (max-width: 760px) {
-  .main-panels {
-    padding: 0;
-  }
 }

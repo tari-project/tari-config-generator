@@ -56,10 +56,7 @@ class Section extends Component {
           )}
         </div>
         <p>{description}</p>
-        <ul
-          className="mdl-list section-list"
-          style={collapsed ? styles.sectionHidden : styles.sectionVisible}
-        >
+        <ul className="mdl-list section-list" style={styles.sectionVisible}>
           {children}
         </ul>
       </div>

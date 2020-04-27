@@ -149,12 +149,19 @@ class Editor extends Component {
             title={section.section}
             description={section.description}
           >
-            {items}
+            <div class="mdl-card__actions mdl-card--border">{items}</div>
           </Section>
         );
       });
 
-    return <div className="section-container">{sections}</div>;
+    return (
+      <div className="mdl-card mdl-shadow--6dp  section-container">
+        <div className="mdl-card__title">
+          <div className="mdl-card__title-text">Settings</div>
+        </div>
+        <div className="mdl-card__actions mdl-card--border">{sections}</div>
+      </div>
+    );
   }
 
   select(section, prop, isEnabled = true) {
